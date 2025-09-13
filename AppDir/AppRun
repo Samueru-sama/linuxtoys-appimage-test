@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Example AppRun for using the hooks of this repository.
+# NOTE: It is meant to be used with sharun which uses a top level bin dir
+# NOTE2: If you do not need the hooks DO NOT USE THIS SCRIPT!!
+# sharun itself can work as teh AppRun and that is much better!
+
+if [ "$APPRUN_DEBUG" = 1 ]; then
+	set -x
+fi
+
+set -e
+
+CURRENTDIR="$(cd "${0%/*}" && echo "$PWD")"
+PATH="$CURRENTDIR/bin:$PATH"
+export PATH
+
+# additional scripts can be placed in the top level bin dir
+# those with a name that ends up .hook will be executed in teh current shell
+# while those that end with bg.hook will be executed in the background
+for hook in "$CURRENTDIR"/bin/*.hook; do
+	[ -x "$hook" ] || continue
+	case "$hook" in
+		*.bg.hook) >&2 echo "exec bg hook: $hook"; "$hook" &;;
+		*.hook)    >&2 echo "exec hook: $hook";    "$hook"  ;;
+	esac
+done
+
+exec "$CURRENTDIR"/sharun run.py "$@"
