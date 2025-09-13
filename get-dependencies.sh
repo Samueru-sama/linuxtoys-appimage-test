@@ -35,6 +35,7 @@ sed -i 's|EUID == 0|EUID == 69|g' /usr/bin/makepkg
 sed -i 's|-O2|-O3|; s|MAKEFLAGS=.*|MAKEFLAGS="-j$(nproc)"|; s|#MAKEFLAGS|MAKEFLAGS|' /etc/makepkg.conf
 git clone https://aur.archlinux.org/linuxtoys-bin.git ./linuxtoys
 cd ./linuxtoys
+sed -i "s|x86_64|$ARCH|" ./PKGBUILD
 makepkg -fs --noconfirm
 ls -la .
 pacman --noconfirm -U ./*.pkg.tar.*
