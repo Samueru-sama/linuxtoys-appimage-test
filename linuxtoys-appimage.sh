@@ -22,7 +22,7 @@ export EXEC_WRAPPER=1
 # Deploy dependencies
 wget --retry-connrefused --tries=30 "$SHARUN" -O ./quick-sharun
 chmod +x ./quick-sharun
-./quick-sharun /usr/bin/linuxtoys /usr/share/linuxtoys/run.py
+./quick-sharun /usr/bin/linuxtoys /usr/share/linuxtoys/run.py /usr/lib/libgirepository-*
 
 echo 'SHARUN_WORKING_DIR=${SHARUN_DIR}/bin' >> ./AppDir/.env
 echo 'LINUXTOYS_PROCESS_NAME=linuxtoys' >> ./AppDir/.env
